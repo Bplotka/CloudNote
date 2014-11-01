@@ -1,7 +1,7 @@
-18:56:52,200 INFO  [org.jboss.modules] JBoss Modules version 1.1.1.GA
-18:56:52,405 INFO  [org.jboss.msc] JBoss MSC version 1.0.2.GA
-18:56:52,447 INFO  [org.jboss.as] JBAS015899: JBoss AS 7.1.1.Final "Brontes" starting
-18:56:52,448 DEBUG [org.jboss.as.config] Configured system properties:
+22:45:39,391 INFO  [org.jboss.modules] JBoss Modules version 1.1.1.GA
+22:45:39,602 INFO  [org.jboss.msc] JBoss MSC version 1.0.2.GA
+22:45:39,640 INFO  [org.jboss.as] JBAS015899: JBoss AS 7.1.1.Final "Brontes" starting
+22:45:39,641 DEBUG [org.jboss.as.config] Configured system properties:
 	awt.toolkit = sun.awt.windows.WToolkit
 	file.encoding = Cp1250
 	file.encoding.pkg = sun.io
@@ -93,13 +93,17 @@
 	user.script = 
 	user.timezone = Europe/Belgrade
 	user.variant = 
-18:56:52,463 DEBUG [org.jboss.as.config] VM Arguments: -XX:+TieredCompilation -Dprogram.name=standalone.bat -Xms64M -Xmx512M -XX:MaxPermSize=256M -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 -Djava.net.preferIPv4Stack=true -Dorg.jboss.resolver.warning=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djboss.server.default.config=standalone.xml -Dorg.jboss.boot.log.file=C:\Users\bwplo_000\IdeaProjects\CloudNote\jBoss\standalone\log\boot.log -Dlogging.configuration=file:C:\Users\bwplo_000\IdeaProjects\CloudNote\jBoss\standalone/configuration/logging.properties 
-18:56:53,169 INFO  [org.xnio] XNIO Version 3.0.3.GA
-18:56:53,169 INFO  [org.jboss.as.server] JBAS015888: Creating http management service using socket-binding (management-http)
-18:56:53,179 INFO  [org.xnio.nio] XNIO NIO Implementation Version 3.0.3.GA
-18:56:53,187 INFO  [org.jboss.remoting] JBoss Remoting version 3.2.3.GA
-18:56:53,201 INFO  [org.jboss.as.logging] JBAS011502: Removing bootstrap log handlers
-18:58:48,542 INFO  [org.jboss.as.logging] JBAS011503: Restored bootstrap log handlers
-18:58:48,548 INFO  [com.arjuna.ats.jbossatx] ARJUNA032018: Destroying TransactionManagerService
-18:58:48,549 INFO  [com.arjuna.ats.jbossatx] ARJUNA032014: Stopping transaction recovery manager
-18:58:48,552 INFO  [org.jboss.as] JBAS015950: JBoss AS 7.1.1.Final "Brontes" stopped in 18ms
+22:45:39,658 DEBUG [org.jboss.as.config] VM Arguments: -XX:+TieredCompilation -Dprogram.name=standalone.bat -Xms64M -Xmx512M -XX:MaxPermSize=256M -Dsun.rmi.dgc.client.gcInterval=3600000 -Dsun.rmi.dgc.server.gcInterval=3600000 -Djava.net.preferIPv4Stack=true -Dorg.jboss.resolver.warning=true -Djboss.modules.system.pkgs=org.jboss.byteman -Djboss.server.default.config=standalone.xml -Dorg.jboss.boot.log.file=C:\Users\bwplo_000\IdeaProjects\CloudNote\jBoss\standalone\log\boot.log -Dlogging.configuration=file:C:\Users\bwplo_000\IdeaProjects\CloudNote\jBoss\standalone/configuration/logging.properties 
+22:45:40,426 INFO  [org.xnio] XNIO Version 3.0.3.GA
+22:45:40,427 INFO  [org.jboss.as.server] JBAS015888: Creating http management service using socket-binding (management-http)
+22:45:40,438 INFO  [org.xnio.nio] XNIO NIO Implementation Version 3.0.3.GA
+22:45:40,447 INFO  [org.jboss.remoting] JBoss Remoting version 3.2.3.GA
+22:45:40,469 INFO  [org.jboss.as.logging] JBAS011502: Removing bootstrap log handlers
+22:53:25,683 INFO  [org.jboss.as.logging] JBAS011503: Restored bootstrap log handlers
+22:53:25,689 INFO  [org.apache.coyote.http11.Http11Protocol] Pausing Coyote HTTP/1.1 on http--127.0.0.1-8080
+22:53:25,690 INFO  [org.apache.coyote.http11.Http11Protocol] Stopping Coyote HTTP/1.1 on http--127.0.0.1-8080
+22:53:25,690 INFO  [com.arjuna.ats.jbossatx] ARJUNA032018: Destroying TransactionManagerService
+22:53:25,691 INFO  [org.apache.coyote.http11.Http11Protocol] Pausing Coyote HTTP/1.1 on http--127.0.0.1-8443
+22:53:25,693 INFO  [com.arjuna.ats.jbossatx] ARJUNA032014: Stopping transaction recovery manager
+22:53:25,694 INFO  [org.apache.coyote.http11.Http11Protocol] Stopping Coyote HTTP/1.1 on http--127.0.0.1-8443
+22:53:25,700 INFO  [org.jboss.as] JBAS015950: JBoss AS 7.1.1.Final "Brontes" stopped in 18ms

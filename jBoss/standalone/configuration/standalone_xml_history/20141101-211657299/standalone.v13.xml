@@ -281,7 +281,7 @@
             <inet-address value="${jboss.bind.address.management:127.0.0.1}"/>
         </interface>
         <interface name="public">
-            <inet-address value="${jboss.bind.address:127.0.0.1}"/>
+            <inet-address value="${jboss.bind.address:192.168.10.15}"/>
         </interface>
         <interface name="unsecure">
             <inet-address value="${jboss.bind.address.unsecure:127.0.0.1}"/>
@@ -304,4 +304,9 @@
         </outbound-socket-binding>
     </socket-binding-group>
 
+    <deployments>
+        <deployment name="CloudNote_war_exploded.war" runtime-name="CloudNote_war_exploded.war">
+            <fs-exploded path="C:\Users\bwplo_000\IdeaProjects\CloudNote\out\artifacts\CloudNote_war_exploded.war"/>
+        </deployment>
+    </deployments>
 </server>
