@@ -1,0 +1,91 @@
+17:33:48,205 INFO  [org.jboss.as.clustering.infinispan] (ServerService Thread Pool -- 31) JBAS010280: Activating Infinispan subsystem.
+17:33:48,207 INFO  [org.jboss.as.naming] (ServerService Thread Pool -- 38) JBAS011800: Activating Naming Subsystem
+17:33:48,207 INFO  [org.jboss.as.configadmin] (ServerService Thread Pool -- 26) JBAS016200: Activating ConfigAdmin Subsystem
+17:33:48,222 INFO  [org.jboss.as.security] (ServerService Thread Pool -- 44) JBAS013101: Activating Security Subsystem
+17:33:48,224 INFO  [org.jboss.as.osgi] (ServerService Thread Pool -- 39) JBAS011940: Activating OSGi Subsystem
+17:33:48,250 INFO  [org.jboss.as.webservices] (ServerService Thread Pool -- 48) JBAS015537: Activating WebServices Extension
+17:33:48,260 INFO  [org.jboss.as.security] (MSC service thread 1-6) JBAS013100: Current PicketBox version=4.0.7.Final
+17:33:48,278 INFO  [org.jboss.as.connector] (MSC service thread 1-12) JBAS010408: Starting JCA Subsystem (JBoss IronJacamar 1.0.9.Final)
+17:33:48,414 INFO  [org.jboss.as.naming] (MSC service thread 1-11) JBAS011802: Starting Naming Service
+17:33:48,428 INFO  [org.jboss.as.mail.extension] (MSC service thread 1-10) JBAS015400: Bound mail session [java:jboss/mail/Default]
+17:33:48,428 INFO  [org.jboss.as.connector.subsystems.datasources] (ServerService Thread Pool -- 27) JBAS010403: Deploying JDBC-compliant driver class org.h2.Driver (version 1.3)
+17:33:48,509 INFO  [org.jboss.ws.common.management.AbstractServerConfig] (MSC service thread 1-16) JBoss Web Services - Stack CXF Server 4.0.2.GA
+17:33:48,618 INFO  [org.apache.coyote.http11.Http11Protocol] (MSC service thread 1-3) Starting Coyote HTTP/1.1 on http--127.0.0.1-8080
+17:33:48,890 INFO  [org.jboss.as.server.deployment.scanner] (MSC service thread 1-6) JBAS015012: Started FileSystemDeploymentService for directory d:\Projects\jBoss\jboss-as-7.1.1.Final\standalone\deployments
+17:33:48,893 INFO  [org.jboss.as.remoting] (MSC service thread 1-9) JBAS017100: Listening on /127.0.0.1:9999
+17:33:48,893 INFO  [org.jboss.as.remoting] (MSC service thread 1-7) JBAS017100: Listening on /127.0.0.1:4447
+17:33:49,284 INFO  [org.jboss.as.connector.subsystems.datasources] (MSC service thread 1-8) JBAS010400: Bound data source [java:jboss/datasources/ExampleDS]
+17:33:49,490 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015951: Admin console listening on http://127.0.0.1:9990
+17:33:49,492 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015874: JBoss AS 7.1.1.Final "Brontes" started in 5499ms - Started 133 of 208 services (74 services are passive or on-demand)
+17:46:48,076 INFO  [org.jboss.as.configadmin] (ServerService Thread Pool -- 26) JBAS016200: Activating ConfigAdmin Subsystem
+17:46:48,081 INFO  [org.jboss.as.clustering.infinispan] (ServerService Thread Pool -- 31) JBAS010280: Activating Infinispan subsystem.
+17:46:48,090 INFO  [org.jboss.as.osgi] (ServerService Thread Pool -- 39) JBAS011940: Activating OSGi Subsystem
+17:46:48,096 INFO  [org.jboss.as.naming] (ServerService Thread Pool -- 38) JBAS011800: Activating Naming Subsystem
+17:46:48,101 INFO  [org.jboss.as.security] (ServerService Thread Pool -- 44) JBAS013101: Activating Security Subsystem
+17:46:48,102 INFO  [org.jboss.as.webservices] (ServerService Thread Pool -- 48) JBAS015537: Activating WebServices Extension
+17:46:48,118 INFO  [org.jboss.as.security] (MSC service thread 1-8) JBAS013100: Current PicketBox version=4.0.7.Final
+17:46:48,122 INFO  [org.jboss.as.connector] (MSC service thread 1-12) JBAS010408: Starting JCA Subsystem (JBoss IronJacamar 1.0.9.Final)
+17:46:48,173 INFO  [org.jboss.as.naming] (MSC service thread 1-12) JBAS011802: Starting Naming Service
+17:46:48,201 INFO  [org.jboss.as.mail.extension] (MSC service thread 1-13) JBAS015400: Bound mail session [java:jboss/mail/Default]
+17:46:48,243 INFO  [org.jboss.as.connector.subsystems.datasources] (ServerService Thread Pool -- 27) JBAS010403: Deploying JDBC-compliant driver class org.h2.Driver (version 1.3)
+17:46:48,328 INFO  [org.apache.coyote.http11.Http11Protocol] (MSC service thread 1-10) Starting Coyote HTTP/1.1 on http--127.0.0.1-8080
+17:46:48,400 INFO  [org.jboss.ws.common.management.AbstractServerConfig] (MSC service thread 1-9) JBoss Web Services - Stack CXF Server 4.0.2.GA
+17:46:48,591 INFO  [org.jboss.as.remoting] (MSC service thread 1-11) JBAS017100: Listening on /127.0.0.1:9999
+17:46:48,592 INFO  [org.jboss.as.server.deployment.scanner] (MSC service thread 1-1) JBAS015012: Started FileSystemDeploymentService for directory d:\Projects\jBoss\jboss-as-7.1.1.Final\standalone\deployments
+17:46:48,591 INFO  [org.jboss.as.remoting] (MSC service thread 1-15) JBAS017100: Listening on /127.0.0.1:4447
+17:46:48,691 INFO  [org.jboss.as.connector.subsystems.datasources] (MSC service thread 1-15) JBAS010400: Bound data source [java:jboss/datasources/ExampleDS]
+17:46:48,797 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015951: Admin console listening on http://127.0.0.1:9990
+17:46:48,797 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015874: JBoss AS 7.1.1.Final "Brontes" started in 1910ms - Started 133 of 208 services (74 services are passive or on-demand)
+18:04:35,474 INFO  [org.jboss.as.osgi] (MSC service thread 1-8) JBAS011942: Stopping OSGi Framework
+18:12:12,006 INFO  [org.jboss.as.configadmin] (ServerService Thread Pool -- 26) JBAS016200: Activating ConfigAdmin Subsystem
+18:12:12,009 INFO  [org.jboss.as.clustering.infinispan] (ServerService Thread Pool -- 31) JBAS010280: Activating Infinispan subsystem.
+18:12:12,010 INFO  [org.jboss.as.security] (ServerService Thread Pool -- 44) JBAS013101: Activating Security Subsystem
+18:12:12,021 INFO  [org.jboss.as.security] (MSC service thread 1-13) JBAS013100: Current PicketBox version=4.0.7.Final
+18:12:12,026 INFO  [org.jboss.as.webservices] (ServerService Thread Pool -- 48) JBAS015537: Activating WebServices Extension
+18:12:12,035 INFO  [org.jboss.as.osgi] (ServerService Thread Pool -- 39) JBAS011940: Activating OSGi Subsystem
+18:12:12,040 INFO  [org.jboss.as.naming] (ServerService Thread Pool -- 38) JBAS011800: Activating Naming Subsystem
+18:12:12,077 INFO  [org.jboss.as.connector] (MSC service thread 1-14) JBAS010408: Starting JCA Subsystem (JBoss IronJacamar 1.0.9.Final)
+18:12:12,147 INFO  [org.jboss.as.connector.subsystems.datasources] (ServerService Thread Pool -- 27) JBAS010403: Deploying JDBC-compliant driver class org.h2.Driver (version 1.3)
+18:12:12,162 INFO  [org.jboss.as.naming] (MSC service thread 1-4) JBAS011802: Starting Naming Service
+18:12:12,166 INFO  [org.jboss.as.mail.extension] (MSC service thread 1-6) JBAS015400: Bound mail session [java:jboss/mail/Default]
+18:12:12,271 INFO  [org.jboss.ws.common.management.AbstractServerConfig] (MSC service thread 1-8) JBoss Web Services - Stack CXF Server 4.0.2.GA
+18:12:12,322 INFO  [org.apache.coyote.http11.Http11Protocol] (MSC service thread 1-12) Starting Coyote HTTP/1.1 on http--127.0.0.1-8080
+18:12:12,503 INFO  [org.jboss.as.server.deployment.scanner] (MSC service thread 1-1) JBAS015012: Started FileSystemDeploymentService for directory D:\Projects\jBoss\jboss-as-7.1.1.Final\standalone\deployments
+18:12:12,505 INFO  [org.jboss.as.remoting] (MSC service thread 1-2) JBAS017100: Listening on /127.0.0.1:9999
+18:12:12,508 INFO  [org.jboss.as.remoting] (MSC service thread 1-16) JBAS017100: Listening on /127.0.0.1:4447
+18:12:12,562 INFO  [org.jboss.as.connector.subsystems.datasources] (MSC service thread 1-4) JBAS010400: Bound data source [java:jboss/datasources/ExampleDS]
+18:12:12,709 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015951: Admin console listening on http://127.0.0.1:9990
+18:12:12,710 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015874: JBoss AS 7.1.1.Final "Brontes" started in 1842ms - Started 133 of 208 services (74 services are passive or on-demand)
+18:12:13,316 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-3) JBAS015876: Starting deployment of "CloudNote_war_exploded.war"
+18:12:13,553 INFO  [org.jboss.web] (MSC service thread 1-7) JBAS018210: Registering web context: /CloudNote_war_exploded
+18:12:14,092 INFO  [org.jboss.as.server] (management-handler-thread - 2) JBAS018559: Deployed "CloudNote_war_exploded.war"
+18:52:10,172 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-6) JBAS015877: Stopped deployment CloudNote_war_exploded.war in 170ms
+18:52:10,331 INFO  [org.jboss.as.server] (management-handler-thread - 7) JBAS018558: Undeployed "CloudNote_war_exploded.war"
+18:52:10,499 INFO  [org.apache.catalina.core.StandardContext] (MSC service thread 1-16) Container org.apache.catalina.core.ContainerBase.[jboss.web].[default-host].[/] has not been started
+18:52:10,510 INFO  [org.jboss.as.osgi] (MSC service thread 1-3) JBAS011942: Stopping OSGi Framework
+18:56:53,214 INFO  [org.jboss.as.clustering.infinispan] (ServerService Thread Pool -- 31) JBAS010280: Activating Infinispan subsystem.
+18:56:53,218 INFO  [org.jboss.as.osgi] (ServerService Thread Pool -- 39) JBAS011940: Activating OSGi Subsystem
+18:56:53,227 INFO  [org.jboss.as.security] (ServerService Thread Pool -- 44) JBAS013101: Activating Security Subsystem
+18:56:53,237 INFO  [org.jboss.as.security] (MSC service thread 1-2) JBAS013100: Current PicketBox version=4.0.7.Final
+18:56:53,241 INFO  [org.jboss.as.webservices] (ServerService Thread Pool -- 48) JBAS015537: Activating WebServices Extension
+18:56:53,248 INFO  [org.jboss.as.configadmin] (ServerService Thread Pool -- 26) JBAS016200: Activating ConfigAdmin Subsystem
+18:56:53,248 INFO  [org.jboss.as.naming] (ServerService Thread Pool -- 38) JBAS011800: Activating Naming Subsystem
+18:56:53,283 INFO  [org.jboss.as.connector] (MSC service thread 1-11) JBAS010408: Starting JCA Subsystem (JBoss IronJacamar 1.0.9.Final)
+18:56:53,382 INFO  [org.jboss.as.connector.subsystems.datasources] (ServerService Thread Pool -- 27) JBAS010403: Deploying JDBC-compliant driver class org.h2.Driver (version 1.3)
+18:56:53,408 INFO  [org.jboss.as.naming] (MSC service thread 1-14) JBAS011802: Starting Naming Service
+18:56:53,443 INFO  [org.jboss.as.mail.extension] (MSC service thread 1-14) JBAS015400: Bound mail session [java:jboss/mail/Default]
+18:56:53,608 INFO  [org.apache.coyote.http11.Http11Protocol] (MSC service thread 1-1) Starting Coyote HTTP/1.1 on http--127.0.0.1-8080
+18:56:53,638 INFO  [org.jboss.ws.common.management.AbstractServerConfig] (MSC service thread 1-7) JBoss Web Services - Stack CXF Server 4.0.2.GA
+18:56:53,784 INFO  [org.jboss.as.remoting] (MSC service thread 1-14) JBAS017100: Listening on /127.0.0.1:9999
+18:56:53,784 INFO  [org.jboss.as.remoting] (MSC service thread 1-8) JBAS017100: Listening on /127.0.0.1:4447
+18:56:53,788 INFO  [org.jboss.as.server.deployment.scanner] (MSC service thread 1-7) JBAS015012: Started FileSystemDeploymentService for directory C:\Users\bwplo_000\IdeaProjects\CloudNote\jBoss\standalone\deployments
+18:56:53,870 INFO  [org.jboss.as.connector.subsystems.datasources] (MSC service thread 1-2) JBAS010400: Bound data source [java:jboss/datasources/ExampleDS]
+18:56:54,115 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015951: Admin console listening on http://127.0.0.1:9990
+18:56:54,116 INFO  [org.jboss.as] (Controller Boot Thread) JBAS015874: JBoss AS 7.1.1.Final "Brontes" started in 2165ms - Started 133 of 208 services (74 services are passive or on-demand)
+18:56:54,835 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-1) JBAS015876: Starting deployment of "CloudNote_war_exploded.war"
+18:56:55,088 INFO  [org.jboss.web] (MSC service thread 1-1) JBAS018210: Registering web context: /CloudNote_war_exploded
+18:56:55,291 INFO  [org.jboss.as.server] (management-handler-thread - 2) JBAS018559: Deployed "CloudNote_war_exploded.war"
+18:58:47,784 INFO  [org.jboss.as.server.deployment] (MSC service thread 1-5) JBAS015877: Stopped deployment CloudNote_war_exploded.war in 31ms
+18:58:48,308 INFO  [org.jboss.as.server] (management-handler-thread - 7) JBAS018558: Undeployed "CloudNote_war_exploded.war"
+18:58:48,524 INFO  [org.apache.catalina.core.StandardContext] (MSC service thread 1-16) Container org.apache.catalina.core.ContainerBase.[jboss.web].[default-host].[/] has not been started
+18:58:48,535 INFO  [org.jboss.as.osgi] (MSC service thread 1-5) JBAS011942: Stopping OSGi Framework
