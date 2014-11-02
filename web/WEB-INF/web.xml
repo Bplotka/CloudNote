@@ -7,8 +7,16 @@
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>cloudNote.LoginServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>HeartBeatServlet</servlet-name>
+        <servlet-class>cloudNote.HeartBeatServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HeartBeatServlet</servlet-name>
+        <url-pattern>/hb</url-pattern>
     </servlet-mapping>
 </web-app>
