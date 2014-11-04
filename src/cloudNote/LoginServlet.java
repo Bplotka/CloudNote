@@ -14,6 +14,7 @@ import java.util.Map;
 public class LoginServlet extends HttpServlet {
 
     protected void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("Call: login user");
         ApiHelper.Status status = ApiHelper.Status.OK;
         Map<String, String> return_fields = new HashMap<String, String>();
         PrintWriter out = response.getWriter();
@@ -44,6 +45,8 @@ public class LoginServlet extends HttpServlet {
     }
 
     protected void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("Call: logout user");
+
         ApiHelper.Status status = ApiHelper.Status.OK;
         Map<String, String> return_fields = new HashMap<String, String>();
         PrintWriter out = response.getWriter();
@@ -79,7 +82,7 @@ public class LoginServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF8");
         String logout = request.getParameter("logout");
-        if ( logout.equals(new String("true"))){
+        if ((logout != null )&&( logout.equals("true"))){
             this.logout(request,response);
         }
         else{

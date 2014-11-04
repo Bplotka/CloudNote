@@ -14,6 +14,7 @@ import java.util.Map;
  */
 public class HeartBeatServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        System.out.println("Call: heartbeat from user");
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF8");
         PrintWriter out = response.getWriter();
