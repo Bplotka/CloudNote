@@ -1,10 +1,15 @@
 package cloudNote;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,21 +22,40 @@ public class LoginServlet extends HttpServlet {
         ApiHelper.Status status = ApiHelper.Status.OK;
         Map<String, String> return_fields = new HashMap<String, String>();
         PrintWriter out = response.getWriter();
+
+        Session session = HibernateUtilities.getSessionFactory().openSession();
+
         try {
             String mail = request.getParameter("login");
             String pass = request.getParameter("password");
-            boolean auth = true;
+            boolean auth = false;
             if ((mail == null)||(pass == null)){
                 throw new Exception("No password or login specified in request");
             }
             else {
-            /* TODO: DB Check password */
+                Criteria criteria = session.createCriteria(UserEntity.class);
+                criteria.add(Restrictions.eq("login", mail));
+                UserEntity user = (UserEntity) criteria.uniqueResult();
+
+                if(user.getPassword().endsWith(pass))
+                {
+                    auth = true;
+                }
             }
 
             if (auth) {
-                /* TODO: Generate Token and save in DB. Create user session in DB*/
+
+                TokenEntity token = new TokenEntity();
+                token.setUpdateTime(Timestamp.valueOf("2017-09-23 10:10:10.0"));
+                token.setUserId(1);
+                session.save(token);
+
+                token =(TokenEntity) session.get(TokenEntity.class, 1);
+
+
+                String tokenId = String.valueOf(token.getId());
                 return_fields.put("msg", "Authorized");
-                return_fields.put("token", "1234");
+                return_fields.put("token",tokenId );
             }else{
                 status = ApiHelper.Status.NO_AUTH;
                 return_fields.put("msg", "Bad login or password");
@@ -40,6 +64,11 @@ public class LoginServlet extends HttpServlet {
             status = ApiHelper.Status.ERROR;
             return_fields.put("msg", ex.getMessage());
         }
+        finally {
+            session.close();
+            HibernateUtilities.getSessionFactory().close();
+        }
+
         out.println(ApiHelper.returnJson(status, return_fields));
     }
 
