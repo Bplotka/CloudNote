@@ -1,10 +1,16 @@
 package cloudNote;
 
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -17,21 +23,54 @@ public class LoginServlet extends HttpServlet {
         ApiHelper.Status status = ApiHelper.Status.OK;
         Map<String, String> return_fields = new HashMap<String, String>();
         PrintWriter out = response.getWriter();
+
+        SessionFactory sessionFactory = HibernateUtilities.getSessionFactory();
+        Session session = sessionFactory.openSession();
+
+
+
         try {
             String mail = request.getParameter("login");
             String pass = request.getParameter("password");
-            boolean auth = true;
+            boolean auth = false;
+
+            Criteria criteria = session.createCriteria(UserEntity.class);
+            criteria.add(Restrictions.eq("login", mail));
+            UserEntity user = (UserEntity) criteria.uniqueResult();
+
             if ((mail == null)||(pass == null)){
                 throw new Exception("No password or login specified in request");
             }
             else {
-            /* TODO: DB Check password */
+
+                if(user.getPassword().equals(pass))
+                {
+                    auth = true;
+                }
             }
 
             if (auth) {
-                /* TODO: Generate Token and save in DB. Create user session in DB*/
+
+                session = sessionFactory.getCurrentSession();
+                session.beginTransaction();
+
+                TokenEntity tokenEntity = new TokenEntity();
+                tokenEntity.setUserId(user.getId());
+                java.util.Date date = new java.util.Date();
+                tokenEntity.setCreateTime(new Timestamp(date.getTime()));
+                tokenEntity.setUpdateTime(Timestamp.valueOf("2015-10-10 10:10:10"));
+
+                session.save(tokenEntity);
+
+                session.getTransaction().commit();
+
+                session = sessionFactory.getCurrentSession();
+                criteria = session.createCriteria(TokenEntity.class);
+                criteria.add(Restrictions.eq("user_id", user.getId()));
+                tokenEntity = (TokenEntity) criteria.uniqueResult();
+
                 return_fields.put("msg", "Authorized");
-                return_fields.put("token", "1234");
+                return_fields.put("token", String.valueOf(tokenEntity.getId()));
             }else{
                 status = ApiHelper.Status.NO_AUTH;
                 return_fields.put("msg", "Bad login or password");
@@ -39,6 +78,10 @@ public class LoginServlet extends HttpServlet {
         } catch (Exception ex) {
             status = ApiHelper.Status.ERROR;
             return_fields.put("msg", ex.getMessage());
+        }
+        finally {
+            session.close();
+            sessionFactory.close();
         }
         out.println(ApiHelper.returnJson(status, return_fields));
     }

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component name="dataSourceStorage">
+  <data-source source="LOCAL" name="MySQL - @localhost" uuid="a68a0d22-348d-493b-9ab3-6e75d7090eb0">
+    <database-info product="MySQL" version="5.6.21-log" jdbc-version="4.0" driver-name="MySQL Connector Java" driver-version="mysql-connector-java-5.1.33 ( Revision: alexander.soklakov@oracle.com-20140908134200-8ukofe1izi0r2b63 )">
+      <extra-name-characters>#@</extra-name-characters>
+      <identifier-quote-string>`</identifier-quote-string>
+    </database-info>
+    <case-sensitivity plain-identifiers="lower" quoted-identifiers="lower"/>
+    <schema name="" catalog="cloudnote"/>
+    <table name="note" schema="" catalog="cloudnote" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="content" sqlType="TEXT" precision="65535" scale="0" nullable="true" jdbcType="-1"/>
+      <column name="create_time" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA="/>
+      <column name="last_modify" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <column name="is_public" sqlType="TINYINT" precision="3" scale="0" nullable="true" jdbcType="-6" def="MA=="/>
+      <column name="create_by" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="note_ibfk_1" columns="create_by" ref-table="user" ref-schema="" ref-catalog="cloudnote" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <exported-key name="user_note_relations_ibfk_2" table="user_note_relations" schema="" catalog="cloudnote" columns="note_id"/>
+      <index name="par_ind" unique="false" columns="create_by"/>
+    </table>
+    <table name="token" schema="" catalog="cloudnote" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="create_time" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93" def="Q1VSUkVOVF9USU1FU1RBTVA="/>
+      <column name="update_time" sqlType="DATETIME" precision="19" scale="0" nullable="true" jdbcType="93"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="token_ibfk_1" columns="user_id" ref-table="user" ref-schema="" ref-catalog="cloudnote" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="par_ind" unique="false" columns="user_id"/>
+    </table>
+    <table name="user" schema="" catalog="cloudnote" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="login" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <column name="password" sqlType="TEXT" precision="65535" scale="0" nullable="false" jdbcType="-1"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <exported-key name="note_ibfk_1" table="note" schema="" catalog="cloudnote" columns="create_by"/>
+      <exported-key name="token_ibfk_1" table="token" schema="" catalog="cloudnote" columns="user_id"/>
+      <exported-key name="user_note_relations_ibfk_1" table="user_note_relations" schema="" catalog="cloudnote" columns="user_id"/>
+    </table>
+    <table name="user_note_relations" schema="" catalog="cloudnote" type="TABLE">
+      <column name="id" sqlType="INT" precision="10" scale="0" nullable="false" jdbcType="4" autoIncrement="true"/>
+      <column name="note_right" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="user_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <column name="note_id" sqlType="INT" precision="10" scale="0" nullable="true" jdbcType="4"/>
+      <primary-key name="PRIMARY" columns="id"/>
+      <foreign-key name="user_note_relations_ibfk_1" columns="user_id" ref-table="user" ref-schema="" ref-catalog="cloudnote" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <foreign-key name="user_note_relations_ibfk_2" columns="note_id" ref-table="note" ref-schema="" ref-catalog="cloudnote" ref-columns="id" update-rule="3" delete-rule="3" deferrability="2"/>
+      <index name="par_ind" unique="false" columns="user_id"/>
+      <index name="sec_par_ind" unique="false" columns="note_id"/>
+    </table>
+  </data-source>
+</component>
