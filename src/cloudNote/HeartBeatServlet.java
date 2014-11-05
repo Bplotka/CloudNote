@@ -27,7 +27,6 @@ public class HeartBeatServlet extends HttpServlet {
         try {
             String mail = request.getParameter("login");
             String token = request.getParameter("token");
-            boolean auth = true;
             if ((mail == null)||(token == null)){
                 throw new Exception("No token or login specified in request");
             }
@@ -47,6 +46,9 @@ public class HeartBeatServlet extends HttpServlet {
             status = ApiHelper.Status.ERROR;
             return_fields.put("msg", ex.getMessage());
             out.println(ApiHelper.returnJson(status, return_fields));
+        }
+        finally {
+            DbHelper.closeSession(session);
         }
     }
 

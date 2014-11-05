@@ -61,6 +61,12 @@ public class DbHelper {
         return (TokenEntity) criteria.uniqueResult();
     }
 
+    public static void removeToken(Session session, TokenEntity token)  throws Exception {
+        session.beginTransaction();
+        session.delete(token);
+        session.getTransaction().commit();
+    }
+
     public static void createUserSession(Session session, UserEntity user, String token, Boolean uniq)  throws Exception {
         java.util.Date date = new java.util.Date();
         if (uniq) {

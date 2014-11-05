@@ -27,7 +27,6 @@ public class LoginServlet extends HttpServlet {
         Map<String, String> return_fields = new HashMap<String, String>();
         PrintWriter out = response.getWriter();
 
-
         Session session = null;
         try {
             String mail = request.getParameter("login");
@@ -63,25 +62,27 @@ public class LoginServlet extends HttpServlet {
     }
 
     protected void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Call: logout user");
+        System.out.println("Logout call: logout user");
 
         ApiHelper.Status status = ApiHelper.Status.OK;
         Map<String, String> return_fields = new HashMap<String, String>();
         PrintWriter out = response.getWriter();
+        Session session = null;
         try {
             String mail = request.getParameter("login");
             String token = request.getParameter("token");
-            boolean auth = true;
             if ((mail == null)||(token == null)){
                 throw new Exception("No token or login specified in request");
             }
-            else {
-            /* TODO: DB Check token */
-            }
 
+            System.out.println("Logout call:: logout user " + mail);
+            session = DbHelper.getCreatedSession();
 
-            if (auth) {
-                /* TODO: Delete session from db! For our user in <login>*/
+            if (DbHelper.isTokenValid(session, mail, token, true)) {
+                UserEntity user = DbHelper.getUserByLogin(session, mail);
+                TokenEntity token_from_db = DbHelper.getTokenByUser(session, user, false);
+                DbHelper.removeToken(session, token_from_db);
+
                 status = ApiHelper.Status.OK;
                 return_fields.put("msg", "User logged out!");
             }else{
@@ -92,6 +93,9 @@ public class LoginServlet extends HttpServlet {
             status = ApiHelper.Status.ERROR;
             return_fields.put("msg", ex.getMessage());
 
+        }
+        finally {
+            DbHelper.closeSession(session);
         }
         out.println(ApiHelper.returnJson(status, return_fields));
     }
