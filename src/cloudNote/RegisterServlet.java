@@ -1,5 +1,7 @@
 package cloudNote;
 
+import org.hibernate.Session;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -17,8 +19,14 @@ public class RegisterServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Boolean validation_success = true;
         String param_query = "";
+
+        Session session = null;
         try{
+            session = DbHelper.getCreatedSession();
+
             String login = request.getParameter("login");
+
+            Boolean isCurrentLoginAvailable = DbHelper.isCurrentLoginAvailable(session, login);
             if (login != null){
                 param_query = param_query.concat("&login=" + login);
             }
@@ -29,6 +37,11 @@ public class RegisterServlet extends HttpServlet {
 
             if (login.equals("")){
                 param_query = param_query.concat("&err-login=\"Nie podano loginu.\"");
+                validation_success = false;
+            }
+            else if(isCurrentLoginAvailable)
+            {
+                param_query = param_query.concat("&err-login=\"Login istnieje w bazie.\"");
                 validation_success = false;
             }
             else{
@@ -63,7 +76,8 @@ public class RegisterServlet extends HttpServlet {
             }
 
             if (validation_success){
-                //TODO: Register user
+                DbHelper.addNewUser(session,login,password);
+
                 RequestDispatcher view = request.getRequestDispatcher("register_success.jsp?login="+login);
                 view.forward(request, response);
                 return;

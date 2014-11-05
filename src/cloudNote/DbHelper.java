@@ -108,6 +108,33 @@ public class DbHelper {
         return false;
     }
 
+    public static void addNewUser(Session session, String login, String password)
+    {
+        session.beginTransaction();
+
+        UserEntity user = new UserEntity();
+        user.setLogin(login);
+        user.setPassword(password);
+
+        session.save(user);
+
+        session.getTransaction().commit();
+    }
+
+    public static Boolean isCurrentLoginAvailable(Session session, String login) {
+
+        Criteria criteria = session.createCriteria(UserEntity.class);
+        criteria.add(Restrictions.eq("login", login));
+
+        UserEntity user = (UserEntity) criteria.uniqueResult();
+
+        if(user != null && !user.equals(null))
+        {
+            return true;
+        }
+        return false;
+    }
+
 //    public static void createUserSession(Session session, UserEntity user, String token)  throws Exception {
 //
 //    session.beginTransaction();
