@@ -56,6 +56,7 @@ DROP TABLE IF EXISTS `token`;
 CREATE TABLE `token` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) DEFAULT NULL,
+  `token` text NOT NULL,
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime DEFAULT NULL,
   PRIMARY KEY (`id`),
@@ -68,11 +69,11 @@ CREATE TABLE `token` (
 -- Dumping data for table `token`
 --
 
-LOCK TABLES `token` WRITE;
-/*!40000 ALTER TABLE `token` DISABLE KEYS */;
+/*LOCK TABLES `token` WRITE;
+/*!40000 ALTER TABLE `token` DISABLE KEYS ;
 INSERT INTO `token` VALUES (2,1,'2014-11-04 22:28:47','2015-10-10 10:10:10');
-/*!40000 ALTER TABLE `token` ENABLE KEYS */;
-UNLOCK TABLES;
+!40000 ALTER TABLE `token` ENABLE KEYS ;
+UNLOCK TABLES;*/
 
 --
 -- Table structure for table `user`
@@ -95,7 +96,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'admin','admin');
+INSERT INTO `user` VALUES (1,'admin','pass');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 
