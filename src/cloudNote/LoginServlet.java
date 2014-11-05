@@ -13,6 +13,7 @@ import java.io.*;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by bwplo_000 on 2014-11-01.
@@ -20,56 +21,33 @@ import java.util.Map;
 public class LoginServlet extends HttpServlet {
 
     protected void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        System.out.println("Call: login user");
+        System.out.println("Login call: start login");
+
         ApiHelper.Status status = ApiHelper.Status.OK;
         Map<String, String> return_fields = new HashMap<String, String>();
         PrintWriter out = response.getWriter();
 
-        SessionFactory sessionFactory = HibernateUtilities.getSessionFactory();
-        Session session = sessionFactory.openSession();
 
-
-
+        Session session = null;
         try {
             String mail = request.getParameter("login");
             String pass = request.getParameter("password");
-            boolean auth = false;
-
-            Criteria criteria = session.createCriteria(UserEntity.class);
-            criteria.add(Restrictions.eq("login", mail));
-            UserEntity user = (UserEntity) criteria.uniqueResult();
 
             if ((mail == null)||(pass == null)){
                 throw new Exception("No password or login specified in request");
             }
-            else {
 
-                if(user.getPassword().equals(pass))
-                {
-                    auth = true;
-                }
-            }
+            System.out.println("Login call:: login user " + mail);
+            session = DbHelper.getCreatedSession();
 
-            if (auth) {
+            UserEntity user = DbHelper.getUserByLogin(session, mail);
 
-                session.beginTransaction();
+            if(user.getPassword().equals(pass)) {
 
-                TokenEntity tokenEntity = new TokenEntity();
-                tokenEntity.setUserId(user.getId());
-                java.util.Date date = new java.util.Date();
-                tokenEntity.setCreateTime(new Timestamp(date.getTime()));
-                tokenEntity.setUpdateTime(Timestamp.valueOf("2015-10-10 10:10:10"));
-
-                session.save(tokenEntity);
-
-                session.getTransaction().commit();
-
-                criteria = session.createCriteria(TokenEntity.class);
-                criteria.add(Restrictions.eq("userId", user.getId()));
-                tokenEntity = (TokenEntity) criteria.uniqueResult();
-
+                UUID uuid = UUID.randomUUID();
+                DbHelper.createUserSession(session, user, uuid.toString(), true);
                 return_fields.put("msg", "Authorized");
-                return_fields.put("token", String.valueOf(tokenEntity.getId()));
+                return_fields.put("token", uuid.toString());
             }else{
                 status = ApiHelper.Status.NO_AUTH;
                 return_fields.put("msg", "Bad login or password");
@@ -79,8 +57,7 @@ public class LoginServlet extends HttpServlet {
             return_fields.put("msg", ex.getMessage());
         }
         finally {
-            session.close();
-            sessionFactory.close();
+            DbHelper.closeSession(session);
         }
         out.println(ApiHelper.returnJson(status, return_fields));
     }

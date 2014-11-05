@@ -11,6 +11,7 @@ import java.sql.Timestamp;
 public class TokenEntity {
     private int id;
     private Integer userId;
+    private String token;
     private Timestamp createTime;
     private Timestamp updateTime;
 
@@ -32,6 +33,16 @@ public class TokenEntity {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    @Basic
+    @Column(name = "token")
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
     }
 
     @Basic
