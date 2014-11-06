@@ -45,6 +45,7 @@ public class LoginServlet extends HttpServlet {
 
                 UUID uuid = UUID.randomUUID();
                 DbHelper.createUserSession(session, user, uuid.toString(), true);
+                System.out.println("Login call:: SUCCESS ");
                 return_fields.put("msg", "Authorized");
                 return_fields.put("token", uuid.toString());
             }else{
@@ -58,7 +59,9 @@ public class LoginServlet extends HttpServlet {
         finally {
             DbHelper.closeSession(session);
         }
-        out.println(ApiHelper.returnJson(status, return_fields));
+        String ret = ApiHelper.returnJson(status, return_fields);
+        System.out.println(ret);
+        out.println(ret);
     }
 
     protected void logout(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -97,7 +100,10 @@ public class LoginServlet extends HttpServlet {
         finally {
             DbHelper.closeSession(session);
         }
-        out.println(ApiHelper.returnJson(status, return_fields));
+
+        String ret = ApiHelper.returnJson(status, return_fields);
+        System.out.println(ret);
+        out.println(ret);
     }
 
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

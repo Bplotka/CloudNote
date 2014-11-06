@@ -36,20 +36,20 @@ public class HeartBeatServlet extends HttpServlet {
 
             if (DbHelper.isTokenValid(session, mail, token, true)) {
                 return_fields.put("msg", "Updated session");
-                out.println(ApiHelper.returnJson(status, return_fields));
             }else{
                 status = ApiHelper.Status.NO_AUTH;
                 return_fields.put("msg", "Session not active, must log in!");
-                out.println(ApiHelper.returnJson(status, return_fields));
             }
         } catch (Exception ex) {
             status = ApiHelper.Status.ERROR;
             return_fields.put("msg", ex.getMessage());
-            out.println(ApiHelper.returnJson(status, return_fields));
         }
         finally {
             DbHelper.closeSession(session);
         }
+        String ret = ApiHelper.returnJson(status, return_fields);
+        System.out.println(ret);
+        out.println(ret);
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

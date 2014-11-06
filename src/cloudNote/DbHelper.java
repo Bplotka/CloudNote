@@ -51,14 +51,36 @@ public class DbHelper {
     public static UserEntity getUserByLogin(Session session, String login) throws Exception{
         Criteria criteria = session.createCriteria(UserEntity.class);
         criteria.add(Restrictions.eq("login", login));
-        return (UserEntity) criteria.uniqueResult();
+        UserEntity user = (UserEntity) criteria.uniqueResult();
+        if (user == null){
+            throw new Exception("There is no such user");
+        }
+        return user;
     }
 
     public static TokenEntity getTokenByUser(Session session, UserEntity user, Boolean check_last_hb)  throws Exception {
 
         Criteria criteria = session.createCriteria(TokenEntity.class);
         criteria.add(Restrictions.eq("userId", user.getId()));
-        return (TokenEntity) criteria.uniqueResult();
+        if (check_last_hb){
+            java.util.Date date = new java.util.Date();
+            Timestamp t = new Timestamp(date.getTime() - 15000);
+            System.out.println(t.toString());
+            criteria.add(Restrictions.ge("updateTime", t));
+        }
+        TokenEntity t  = (TokenEntity) criteria.uniqueResult();
+        if (check_last_hb){
+            if (t==null){
+                t = DbHelper.getTokenByUser(session,user,false);
+                if (t!=null){
+                    DbHelper.removeToken(session,t);
+                    System.out.println("Removing token because it is outdated");
+                    return null;
+                }
+            }
+        }
+
+        return t;
     }
 
     public static void removeToken(Session session, TokenEntity token)  throws Exception {
@@ -80,7 +102,7 @@ public class DbHelper {
         tokenEntity.setUserId(user.getId());
 
         tokenEntity.setCreateTime(new Timestamp(date.getTime()));
-        tokenEntity.setUpdateTime(Timestamp.valueOf("2015-10-10 10:10:10"));
+        tokenEntity.setUpdateTime(new Timestamp(date.getTime()));
         tokenEntity.setToken(token);
         session.save(tokenEntity);
 
@@ -90,9 +112,7 @@ public class DbHelper {
     public static Boolean isTokenValid(Session session, String mail, String token, Boolean update_session_time) throws Exception{
         java.util.Date date = new java.util.Date();
         UserEntity user = DbHelper.getUserByLogin(session, mail);
-        if (user == null){
-            throw new Exception("There is no such user");
-        }
+
         TokenEntity token_from_db = DbHelper.getTokenByUser(session, user, true);
         if (token_from_db != null){
             if (token_from_db.getToken().equals(token)){

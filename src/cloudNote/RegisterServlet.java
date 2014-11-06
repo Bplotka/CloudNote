@@ -20,6 +20,8 @@ public class RegisterServlet extends HttpServlet {
         Boolean validation_success = true;
         String param_query = "";
 
+        request.setCharacterEncoding("UTF8");
+
         Session session = null;
         try{
             session = DbHelper.getCreatedSession();
@@ -36,38 +38,38 @@ public class RegisterServlet extends HttpServlet {
             String password2 = request.getParameter("password2");
 
             if (login.equals("")){
-                param_query = param_query.concat("&err-login=\"Nie podano loginu.\"");
+                param_query = param_query.concat("&err-login=Nie podano loginu.");
                 validation_success = false;
             }
             else if(isCurrentLoginAvailable)
             {
-                param_query = param_query.concat("&err-login=\"Login istnieje w bazie.\"");
+                param_query = param_query.concat("&err-login=Login istnieje w bazie.");
                 validation_success = false;
             }
             else{
                 if (!login.matches("^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z0-9-]+$")){
-                    param_query = param_query.concat("&err-login=\"Login nie jest poprawnym adresem e-mail.\"");
+                    param_query = param_query.concat("&err-login=Login nie jest poprawnym adresem e-mail.");
                     validation_success = false;
                 }
             }
 
 
             if (password.equals("")){
-                param_query = param_query.concat("&err-password=\"Nie podano hasla.\"");
+                param_query = param_query.concat("&err-password=Nie podano hasła");
                 validation_success = false;
             }
             else{
                 if (password.length() < 8){
-                    param_query = param_query.concat("&err-password=\"Haslo musi miec wiecej niz 8 znakow.\"");
+                    param_query = param_query.concat("&err-password=Hasło musi mieć więcej niż 8 znaków.");
                     validation_success = false;
                 }
                 else {
                     if (password2.equals("")) {
-                        param_query = param_query.concat("&err-password=\"Hasla nie pasuja do siebie.\"");
+                        param_query = param_query.concat("&err-password=Hasła nie pasują do siebie.");
                         validation_success = false;
                     } else {
                         if (!password.equals(password2)) {
-                            param_query = param_query.concat("&err-password=\"\"Hasla nie pasuja do siebie.\"");
+                            param_query = param_query.concat("&err-password=Hasła nie pasują do siebie.");
                             validation_success = false;
                         }
 
