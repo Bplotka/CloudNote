@@ -6,11 +6,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 import org.hibernate.criterion.Restrictions;
-import org.hibernate.dialect.DB2390Dialect;
-import org.hibernate.service.ServiceRegistry;
 import org.hibernate.service.ServiceRegistryBuilder;
 
 import java.sql.Timestamp;
+import java.util.List;
 
 /**
  * Created by bwplo_000 on 2014-11-05.
@@ -52,6 +51,8 @@ public class DbHelper {
         Criteria criteria = session.createCriteria(UserEntity.class);
         criteria.add(Restrictions.eq("login", login));
         UserEntity user = (UserEntity) criteria.uniqueResult();
+        user.Notes = DbHelper.getUserNotes(session,user.getId());
+
         if (user == null){
             throw new Exception("There is no such user");
         }
@@ -153,6 +154,47 @@ public class DbHelper {
             return true;
         }
         return false;
+    }
+
+    public static List<NoteEntity> getUserNotes(Session session, int userId) {
+        Criteria criteria = session.createCriteria(UserNoteRelationsEntity.class);
+        criteria.add(Restrictions.eq("userId", userId));
+
+        List<UserNoteRelationsEntity> userNoteRelations = (List<UserNoteRelationsEntity>) criteria;
+
+        List<NoteEntity> notes = null;
+
+        for(UserNoteRelationsEntity relation :  userNoteRelations){
+            NoteEntity note = getNoteById(session, relation.getNoteId());
+
+            note.setRight(RightProvider.getRightFromInt(relation.getNoteRight()));
+            notes.add(note);
+        }
+
+        return notes;
+    }
+
+    public static NoteEntity getNoteById(Session session, int id) {
+        NoteEntity note;
+        Criteria criteria = session.createCriteria(NoteEntity.class);
+        criteria.add(Restrictions.eq("id", id));
+
+        note = (NoteEntity) criteria.uniqueResult();
+        return note;
+    }
+
+    public static void SaveNote(Session session, int userId, NoteEntity note)  {
+        session.beginTransaction();
+
+        UserNoteRelationsEntity relation = new UserNoteRelationsEntity();
+        relation.setNoteId(note.getId());
+        relation.setUserId(userId);
+        relation.setNoteRight(RightProvider.getRightFromEnum(note.getRight()));
+
+        session.save(relation);
+        session.save(note);
+
+        session.getTransaction().commit();
     }
 
 //    public static void createUserSession(Session session, UserEntity user, String token)  throws Exception {

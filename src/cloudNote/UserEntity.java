@@ -1,6 +1,7 @@
 package cloudNote;
 
 import javax.persistence.*;
+import java.util.List;
 
 /**
  * Created by Piotr on 2014-11-04.
@@ -11,6 +12,7 @@ public class UserEntity {
     private int id;
     private String login;
     private String password;
+    public List<NoteEntity> Notes;
 
     @Id
     @Column(name = "id")

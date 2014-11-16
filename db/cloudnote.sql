@@ -27,6 +27,7 @@ DROP TABLE IF EXISTS `note`;
 CREATE TABLE `note` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `content` text,
+  `title` text,
   `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
   `last_modify` datetime DEFAULT NULL,
   `is_public` tinyint(1) DEFAULT '0',
