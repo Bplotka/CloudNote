@@ -18,7 +18,7 @@ import java.util.UUID;
 /**
  * Created by bwplo_000 on 2014-11-01.
  */
-public class LoginServlet extends HttpServlet {
+public class LoginServlet extends NoteHttpServlet {
 
     protected void login(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("Login call: start login");
@@ -118,16 +118,4 @@ public class LoginServlet extends HttpServlet {
         }
 
     }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF8");
-        PrintWriter out = response.getWriter();
-        ApiHelper.Status status = ApiHelper.Status.ERROR;
-        Map<String, String> return_fields = new HashMap<String, String>();
-        return_fields.put("msg","GET method not possible for login");
-        out.println(ApiHelper.returnJson(status, return_fields));
-
-    }
-
 }

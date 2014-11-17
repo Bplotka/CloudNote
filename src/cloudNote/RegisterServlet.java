@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Created by bwplo_000 on 2014-11-03.
  */
-public class RegisterServlet extends HttpServlet {
+public class RegisterServlet extends NoteHttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Boolean validation_success = true;
         String param_query = "";
@@ -95,13 +95,4 @@ public class RegisterServlet extends HttpServlet {
         view.forward(request, response);
     }
 
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF8");
-        PrintWriter out = response.getWriter();
-        ApiHelper.Status status = ApiHelper.Status.ERROR;
-        Map<String, String> return_fields = new HashMap<String, String>();
-        return_fields.put("msg","GET method not possible for register");
-        out.println(ApiHelper.returnJson(status, return_fields));
-    }
 }

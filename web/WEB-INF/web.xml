@@ -7,27 +7,41 @@
         <servlet-name>LoginServlet</servlet-name>
         <servlet-class>cloudNote.LoginServlet</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>LoginServlet</servlet-name>
-        <url-pattern>/login</url-pattern>
-    </servlet-mapping>
-
     <servlet>
         <servlet-name>HeartBeatServlet</servlet-name>
         <servlet-class>cloudNote.HeartBeatServlet</servlet-class>
     </servlet>
-    <servlet-mapping>
-        <servlet-name>HeartBeatServlet</servlet-name>
-        <url-pattern>/hb</url-pattern>
-    </servlet-mapping>
-
     <servlet>
         <servlet-name>RegisterServlet</servlet-name>
         <servlet-class>cloudNote.RegisterServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>NoteServlet</servlet-name>
+        <servlet-class>cloudNote.NoteServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>PermissionServlet</servlet-name>
+        <servlet-class>cloudNote.PermissionServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>LoginServlet</servlet-name>
+        <url-pattern>/login</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>HeartBeatServlet</servlet-name>
+        <url-pattern>/hb</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>RegisterServlet</servlet-name>
         <url-pattern>/register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>NoteServlet</servlet-name>
+        <url-pattern>/note/*</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PermissionServlet</servlet-name>
+        <url-pattern>/permission/*</url-pattern>
     </servlet-mapping>
 
 

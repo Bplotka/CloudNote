@@ -12,6 +12,7 @@ public class UserNoteRelationsEntity {
     private Integer noteRight;
     private Integer userId;
     private Integer noteId;
+    public UserEntity user;
 
     @Id
     @Column(name = "id")

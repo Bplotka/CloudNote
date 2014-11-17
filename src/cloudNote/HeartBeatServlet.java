@@ -15,7 +15,7 @@ import java.util.Map;
 /**
  * Created by bwplo_000 on 2014-11-03.
  */
-public class HeartBeatServlet extends HttpServlet {
+public class HeartBeatServlet extends NoteHttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         System.out.println("Hb call: heartbeat");
         response.setContentType("application/json");
@@ -50,15 +50,5 @@ public class HeartBeatServlet extends HttpServlet {
         String ret = ApiHelper.returnJson(status, return_fields);
         System.out.println(ret);
         out.println(ret);
-    }
-
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF8");
-        PrintWriter out = response.getWriter();
-        ApiHelper.Status status = ApiHelper.Status.ERROR;
-        Map<String, String> return_fields = new HashMap<String, String>();
-        return_fields.put("msg","GET method not possible for hb");
-        out.println(ApiHelper.returnJson(status, return_fields));
     }
 }
