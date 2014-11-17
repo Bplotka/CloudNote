@@ -48,7 +48,7 @@ public class NoteServlet extends NoteHttpServlet {
         ApiHelper.Status status = ApiHelper.Status.OK;
         Map<String, String> return_fields = new HashMap<String, String>();
         PrintWriter out = response.getWriter();
-        //TODO: Notes array to fill!
+        //Notes array to fill!
         List<NoteEntity> notes = new ArrayList<NoteEntity>();
         Session session = null;
         try {
@@ -60,7 +60,7 @@ public class NoteServlet extends NoteHttpServlet {
 
             session = DbHelper.getCreatedSession();
 
-            //TODO: Check token and list notes for that USER! ( for user who has rights to read)
+            //Check token and list notes for that USER! ( for user who has rights to read)
             UserEntity user = DbHelper.getUserByToken(session, token);
             if(user != null){
                 notes = user.Notes;
@@ -100,47 +100,41 @@ public class NoteServlet extends NoteHttpServlet {
             }
 
             session = DbHelper.getCreatedSession();
-            //TODO: Check token
-            //TODO: Parse note from json, get ID and find if exists in db.
-            //TODO: If exists check if user have RW rights. If not just create note.
-            TokenEntity tokenEntity = DbHelper.getToken(session, token);
-            if(tokenEntity != null){
+            // Check token
+            // Parse note from json, get ID and find if exists in db.
+            // If exists check if user have RW rights. If not just create note.
+            TokenEntity tokenEntity = DbHelper.getToken(session, token, true);
 
-                JSONObject obj = new JSONObject(note);
-                int noteId = obj.getInt("id");
-                String noteTitle = obj.getString("title");
-                String noteContent = obj.getString("content");
-                Byte isPublic = Byte.parseByte(obj.getString("is_public"));
+            JSONObject obj = new JSONObject(note);
+            int noteId = obj.getInt("id");
+            String noteTitle = obj.getString("title");
+            String noteContent = obj.getString("content");
+            Byte isPublic = Byte.parseByte(obj.getString("is_public"));
 
-                UserEntity user = DbHelper.getUserByToken(session, token);
-                NoteEntity noteEntity = null;
-                for(NoteEntity notes : user.Notes)
+            UserEntity user = DbHelper.getUserByToken(session, tokenEntity);
+            NoteEntity noteEntity = null;
+            for(NoteEntity user_note : user.Notes)
+            {
+                if(user_note.getId() == noteId)
                 {
-                    if(notes.getId() == noteId)
-                    {
-                        noteEntity = notes;
-                    }
+                    noteEntity = user_note;
                 }
-
-                if(noteEntity == null){
-                    noteEntity = new NoteEntity();
-                    noteEntity.setContent(noteContent);
-                    noteEntity.setTitle(noteTitle);
-                    noteEntity.setCreateBy(tokenEntity.getId());
-                    noteEntity.setIsPublic(isPublic);
-
-                    DbHelper.saveNote(session, tokenEntity.getUserId(), noteEntity);
-                }
-                else{
-                    noteEntity.setContent(noteContent);
-                    noteEntity.setTitle(noteTitle);
-                    noteEntity.setCreateBy(tokenEntity.getId());
-                    noteEntity.setIsPublic(isPublic);
-                    DbHelper.saveNote(session, user.getId(), noteEntity);
-                }
-
-
             }
+
+            if(noteEntity == null){
+                //NEW NOTE
+                System.out.println("Note call:: New note ");
+                noteEntity = new NoteEntity();
+            }else{
+                if (noteEntity.getRight() == RightEnum.READ) {
+                    throw new Exception("User has no WRITE permission for that note");
+                }
+            }
+            noteEntity.setContent(noteContent);
+            noteEntity.setTitle(noteTitle);
+            noteEntity.setCreateBy(tokenEntity.getId());
+            noteEntity.setIsPublic(isPublic);
+            DbHelper.saveNote(session, tokenEntity.getId(), noteEntity);
 
             System.out.println("Note call:: SUCCESS ");
             return_fields.put("msg", "Note saved");
@@ -172,13 +166,22 @@ public class NoteServlet extends NoteHttpServlet {
             }
 
             session = DbHelper.getCreatedSession();
-            //TODO: Check token
-            //TODO: delete note with given note id
-            TokenEntity tokenEntity = DbHelper.getToken(session, token);
-            if(tokenEntity != null){
-                NoteEntity note = DbHelper.getNoteById(session, Integer.parseInt(note_id));
-                DbHelper.removeNote(session, note);
+            // Check token
+            // delete note with given note id
+            UserEntity user = DbHelper.getUserByToken(session, token);
+            NoteEntity noteEntity = null;
+            int noteId = Integer.parseInt(note_id);
+            for(NoteEntity user_note : user.Notes)
+            {
+                if(user_note.getId() == noteId)
+                {
+                    if (user_note.getRight() == RightEnum.READ_WRITE)  noteEntity = user_note;
+                }
             }
+            if(noteEntity==null){
+                throw new Exception("User has no permission to remove that note");
+            }
+            DbHelper.removeNote(session, noteEntity);
 
             System.out.println("Note call:: SUCCESS ");
             return_fields.put("msg", "Note deleted");

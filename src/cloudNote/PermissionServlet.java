@@ -49,7 +49,7 @@ public class PermissionServlet extends NoteHttpServlet {
         ApiHelper.Status status = ApiHelper.Status.OK;
         Map<String, String> return_fields = new HashMap<String, String>();
         PrintWriter out = response.getWriter();
-        //TODO: Permissions array to fill!
+        // Permissions array to fill!
         List<UserNoteRelationsEntity> rights = new ArrayList<UserNoteRelationsEntity>();
 
         Session session = null;
@@ -61,7 +61,7 @@ public class PermissionServlet extends NoteHttpServlet {
             }
             session = DbHelper.getCreatedSession();
 
-            //TODO: Check token and list permission for that USER and NOTE
+            // Check token and list permission for that USER and NOTE
             UserEntity user = DbHelper.getUserByToken(session, token);
 
             if(user != null){
@@ -103,9 +103,9 @@ public class PermissionServlet extends NoteHttpServlet {
             }
 
             session = DbHelper.getCreatedSession();
-            //TODO: Check token
+            // Check token
 
-            //TODO: Get User from token, update permission for the given user in(login)
+            // Get User from token, update permission for the given user in(login)
             UserEntity user = DbHelper.getUserByToken(session, token);
             if(user != null){
                 DbHelper.addPermission(session,user.getId(), login, permission, note_id);
@@ -142,12 +142,10 @@ public class PermissionServlet extends NoteHttpServlet {
             }
 
             session = DbHelper.getCreatedSession();
-            //TODO: Check token
-            //TODO: remove permission for the given user in(login) and note
-            TokenEntity tokenEntity = DbHelper.getToken(session, token);
-            if(tokenEntity != null){
-                DbHelper.removePermission(session, login, note_id);
-            }
+            // Check token
+            // remove permission for the given user in(login) and note
+            DbHelper.getToken(session, token, true);
+            DbHelper.removePermission(session, login, note_id);
 
             System.out.println("Note call:: SUCCESS ");
             return_fields.put("msg", "Permission deleted");

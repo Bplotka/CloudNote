@@ -16,7 +16,7 @@ import java.util.List;
  * Created by bwplo_000 on 2014-11-05.
  */
 public class DbHelper {
-
+    public static int LOGIN_TIME = 200000; //20000
     public static Session getCreatedSession() throws Exception {
         Session session;
         try {
@@ -206,19 +206,42 @@ public class DbHelper {
         session.getTransaction().commit();
     }
 
-    public static TokenEntity getToken(Session session, String token) throws Exception {
+    public static TokenEntity getToken(Session session, String token, Boolean check_last_hb) throws Exception {
         TokenEntity tokenEntity;
         Criteria criteria = session.createCriteria(TokenEntity.class);
         criteria.add(Restrictions.eq("token", token));
 
+        if (check_last_hb){
+            java.util.Date date = new java.util.Date();
+            Timestamp t = new Timestamp(date.getTime() - LOGIN_TIME);
+            System.out.println(t.toString());
+            criteria.add(Restrictions.ge("updateTime", t));
+        }
         tokenEntity = (TokenEntity) criteria.uniqueResult();
+        if (check_last_hb){
+            if (tokenEntity==null){
+                tokenEntity = DbHelper.getToken(session,token,false);
+                if (tokenEntity!=null){
+                    DbHelper.removeToken(session,tokenEntity);
+                    System.out.println("Removing token because it is outdated");
+                    return null;
+                }
+            }
+        }
+        if(tokenEntity==null) throw new Exception("Token not valid");
+
         return tokenEntity;
     }
 
     public static UserEntity getUserByToken(Session session, String token) throws Exception{
-        TokenEntity tokenEntity = getToken(session, token);
+        TokenEntity tokenEntity = getToken(session, token, true);
 
         UserEntity user = DbHelper.getUserById(session, tokenEntity.getUserId());
+        return user;
+    }
+
+    public static UserEntity getUserByToken(Session session, TokenEntity token) throws Exception{
+        UserEntity user = DbHelper.getUserById(session, token.getUserId());
         return user;
     }
 
