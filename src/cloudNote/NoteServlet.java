@@ -1,6 +1,7 @@
 package cloudNote;
 
 import org.hibernate.Session;
+import org.json.JSONObject;
 import sun.org.mozilla.javascript.internal.json.JsonParser;
 
 import javax.servlet.ServletException;
@@ -104,15 +105,18 @@ public class NoteServlet extends NoteHttpServlet {
             //TODO: If exists check if user have RW rights. If not just create note.
             TokenEntity tokenEntity = DbHelper.getToken(session, token);
             if(tokenEntity != null){
-                String noteId = new String(); //TODO
-                String noteTitle = new String(); //TODO
-                String noteContent = new String(); //TODO
-                Boolean isPublic = false; //TODO
+
+                JSONObject obj = new JSONObject(note);
+                int noteId = obj.getInt("id");
+                String noteTitle = obj.getString("title");
+                String noteContent = obj.getString("content");
+                Byte isPublic = Byte.parseByte(obj.getString("is_public"));
+
                 UserEntity user = DbHelper.getUserByToken(session, token);
                 NoteEntity noteEntity = null;
                 for(NoteEntity notes : user.Notes)
                 {
-                    if(notes.getId() == Integer.parseInt(noteId))
+                    if(notes.getId() == noteId)
                     {
                         noteEntity = notes;
                     }
@@ -123,14 +127,15 @@ public class NoteServlet extends NoteHttpServlet {
                     noteEntity.setContent(noteContent);
                     noteEntity.setTitle(noteTitle);
                     noteEntity.setCreateBy(tokenEntity.getId());
-                    noteEntity.setIsPublic(new Byte("0"));
+                    noteEntity.setIsPublic(isPublic);
 
-                    DbHelper.saveNote(session, tokenEntity.getUserId(), noteEntity );
+                    DbHelper.saveNote(session, tokenEntity.getUserId(), noteEntity);
                 }
                 else{
                     noteEntity.setContent(noteContent);
                     noteEntity.setTitle(noteTitle);
                     noteEntity.setCreateBy(tokenEntity.getId());
+                    noteEntity.setIsPublic(isPublic);
                     DbHelper.saveNote(session, user.getId(), noteEntity);
                 }
 
