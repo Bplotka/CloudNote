@@ -9,6 +9,7 @@ import org.hibernate.criterion.Restrictions;
 import org.hibernate.service.ServiceRegistryBuilder;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -156,13 +157,21 @@ public class DbHelper {
         return false;
     }
 
-    public static List<NoteEntity> getUserNotes(Session session, int userId) {
+    public static List<UserNoteRelationsEntity> getUserNoteRelationsByUserId(Session session, int userId) throws Exception{
+        Criteria criteria = session.createCriteria(UserNoteRelationsEntity.class);
+        criteria.add(Restrictions.eq("userId", userId));
+        List<UserNoteRelationsEntity> userNoteRelations = (List<UserNoteRelationsEntity>) criteria;
+
+        return userNoteRelations;
+    }
+
+    public static List<NoteEntity> getUserNotes(Session session, int userId) throws Exception {
         Criteria criteria = session.createCriteria(UserNoteRelationsEntity.class);
         criteria.add(Restrictions.eq("userId", userId));
 
         List<UserNoteRelationsEntity> userNoteRelations = (List<UserNoteRelationsEntity>) criteria;
 
-        List<NoteEntity> notes = null;
+        List<NoteEntity> notes = new ArrayList<NoteEntity>();;
 
         for(UserNoteRelationsEntity relation :  userNoteRelations){
             NoteEntity note = getNoteById(session, relation.getNoteId());
@@ -174,7 +183,7 @@ public class DbHelper {
         return notes;
     }
 
-    public static NoteEntity getNoteById(Session session, int id) {
+    public static NoteEntity getNoteById(Session session, int id) throws Exception{
         NoteEntity note;
         Criteria criteria = session.createCriteria(NoteEntity.class);
         criteria.add(Restrictions.eq("id", id));
@@ -183,7 +192,7 @@ public class DbHelper {
         return note;
     }
 
-    public static void SaveNote(Session session, int userId, NoteEntity note)  {
+    public static void saveNote(Session session, int userId, NoteEntity note)  {
         session.beginTransaction();
 
         UserNoteRelationsEntity relation = new UserNoteRelationsEntity();
@@ -194,6 +203,69 @@ public class DbHelper {
         session.save(relation);
         session.save(note);
 
+        session.getTransaction().commit();
+    }
+
+    public static TokenEntity getToken(Session session, String token) throws Exception {
+        TokenEntity tokenEntity;
+        Criteria criteria = session.createCriteria(TokenEntity.class);
+        criteria.add(Restrictions.eq("token", token));
+
+        tokenEntity = (TokenEntity) criteria.uniqueResult();
+        return tokenEntity;
+    }
+
+    public static UserEntity getUserByToken(Session session, String token) throws Exception{
+        TokenEntity tokenEntity = getToken(session, token);
+
+        UserEntity user = DbHelper.getUserById(session, tokenEntity.getUserId());
+        return user;
+    }
+
+    private static UserEntity getUserById(Session session, int id) throws Exception{
+        UserEntity user;
+        Criteria criteria = session.createCriteria(UserEntity.class);
+        criteria.add(Restrictions.eq("id", id));
+
+        user = (UserEntity) criteria.uniqueResult();
+
+        user.Notes = DbHelper.getUserNotes(session, user.getId());
+        return user;
+    }
+
+    public static void addPermission(Session session, int userId, String grantedUserLogin, String permission, String note_id) throws Exception {
+        session.beginTransaction();
+        int right = RightProvider.getRightFromString(permission);
+
+        UserNoteRelationsEntity relation = new UserNoteRelationsEntity();
+        relation.setNoteId(Integer.parseInt(note_id));
+
+        UserEntity grantedUser = DbHelper.getUserByLogin(session, grantedUserLogin);
+        relation.setUserId(grantedUser.getId());
+
+        relation.setNoteRight(right);
+        session.save(relation);
+
+        session.getTransaction().commit();
+    }
+
+    public static void removePermission(Session session, String revokeUserLogin, String note_id) throws Exception{
+
+        session.beginTransaction();
+        UserEntity user = DbHelper.getUserByLogin(session, revokeUserLogin);
+        Criteria criteria = session.createCriteria(UserNoteRelationsEntity.class);
+        criteria.add(Restrictions.eq("note_id", note_id));
+        criteria.add(Restrictions.eq("user_id", user.getId()));
+
+        UserNoteRelationsEntity relation = (UserNoteRelationsEntity) criteria.uniqueResult();
+
+        session.delete(relation);
+        session.getTransaction().commit();
+    }
+
+    public static void removeNote(Session session, NoteEntity note) throws Exception{
+        session.beginTransaction();
+        session.delete(note);
         session.getTransaction().commit();
     }
 

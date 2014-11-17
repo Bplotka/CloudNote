@@ -60,6 +60,11 @@ public class NoteServlet extends NoteHttpServlet {
             session = DbHelper.getCreatedSession();
 
             //TODO: Check token and list notes for that USER! ( for user who has rights to read)
+            UserEntity user = DbHelper.getUserByToken(session, token);
+            if(user != null){
+                notes = user.Notes;
+            }
+
 
         } catch (Exception ex) {
             status = ApiHelper.Status.ERROR;
@@ -97,6 +102,41 @@ public class NoteServlet extends NoteHttpServlet {
             //TODO: Check token
             //TODO: Parse note from json, get ID and find if exists in db.
             //TODO: If exists check if user have RW rights. If not just create note.
+            TokenEntity tokenEntity = DbHelper.getToken(session, token);
+            if(tokenEntity != null){
+                String noteId = new String(); //TODO
+                String noteTitle = new String(); //TODO
+                String noteContent = new String(); //TODO
+                Boolean isPublic = false; //TODO
+                UserEntity user = DbHelper.getUserByToken(session, token);
+                NoteEntity noteEntity = null;
+                for(NoteEntity notes : user.Notes)
+                {
+                    if(notes.getId() == Integer.parseInt(noteId))
+                    {
+                        noteEntity = notes;
+                    }
+                }
+
+                if(noteEntity == null){
+                    noteEntity = new NoteEntity();
+                    noteEntity.setContent(noteContent);
+                    noteEntity.setTitle(noteTitle);
+                    noteEntity.setCreateBy(tokenEntity.getId());
+                    noteEntity.setIsPublic(new Byte("0"));
+
+                    DbHelper.saveNote(session, tokenEntity.getUserId(), noteEntity );
+                }
+                else{
+                    noteEntity.setContent(noteContent);
+                    noteEntity.setTitle(noteTitle);
+                    noteEntity.setCreateBy(tokenEntity.getId());
+                    DbHelper.saveNote(session, user.getId(), noteEntity);
+                }
+
+
+            }
+
             System.out.println("Note call:: SUCCESS ");
             return_fields.put("msg", "Note saved");
         } catch (Exception ex) {
@@ -129,6 +169,12 @@ public class NoteServlet extends NoteHttpServlet {
             session = DbHelper.getCreatedSession();
             //TODO: Check token
             //TODO: delete note with given note id
+            TokenEntity tokenEntity = DbHelper.getToken(session, token);
+            if(tokenEntity != null){
+                NoteEntity note = DbHelper.getNoteById(session, Integer.parseInt(note_id));
+                DbHelper.removeNote(session, note);
+            }
+
             System.out.println("Note call:: SUCCESS ");
             return_fields.put("msg", "Note deleted");
         } catch (Exception ex) {

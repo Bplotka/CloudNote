@@ -16,10 +16,6 @@ public class RightProvider {
                 return READ;
             case 2:
                 return READ_WRITE;
-            case 3:
-                return CAN_GRANT_READ;
-            case 4:
-                return CAN_GRANT_READ_WRITE;
             default:
                 return NONE;
         }
@@ -32,12 +28,20 @@ public class RightProvider {
                 return 1;
             case READ_WRITE:
                 return 2;
-            case CAN_GRANT_READ:
-                return 3;
-            case CAN_GRANT_READ_WRITE:
-                return 4;
             default:
                 return 0;
         }
+    }
+
+    public static Integer getRightFromString(String right) {
+        if(right.equals("R"))
+        {
+            return 1;
+        }
+        else if(right.equals("RW"))
+        {
+            return 2;
+        }
+        return 0;
     }
 }
