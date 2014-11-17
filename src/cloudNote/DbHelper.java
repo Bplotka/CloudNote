@@ -16,7 +16,7 @@ import java.util.List;
  * Created by bwplo_000 on 2014-11-05.
  */
 public class DbHelper {
-    public static int LOGIN_TIME = 200000; //20000
+    public static int LOGIN_TIME = 200000000; //200000
     public static Session getCreatedSession() throws Exception {
         Session session;
         try {
@@ -52,11 +52,10 @@ public class DbHelper {
         Criteria criteria = session.createCriteria(UserEntity.class);
         criteria.add(Restrictions.eq("login", login));
         UserEntity user = (UserEntity) criteria.uniqueResult();
-        user.Notes = DbHelper.getUserNotes(session,user.getId());
-
         if (user == null){
             throw new Exception("There is no such user");
         }
+        user.Notes = DbHelper.getUserNotes(session,user.getId());
         return user;
     }
 
@@ -160,7 +159,7 @@ public class DbHelper {
     public static List<UserNoteRelationsEntity> getUserNoteRelationsByUserId(Session session, int userId) throws Exception{
         Criteria criteria = session.createCriteria(UserNoteRelationsEntity.class);
         criteria.add(Restrictions.eq("userId", userId));
-        List<UserNoteRelationsEntity> userNoteRelations = (List<UserNoteRelationsEntity>) criteria;
+        List<UserNoteRelationsEntity> userNoteRelations = (List<UserNoteRelationsEntity>) criteria.list();
 
         return userNoteRelations;
     }
@@ -169,7 +168,7 @@ public class DbHelper {
         Criteria criteria = session.createCriteria(UserNoteRelationsEntity.class);
         criteria.add(Restrictions.eq("userId", userId));
 
-        List<UserNoteRelationsEntity> userNoteRelations = (List<UserNoteRelationsEntity>) criteria;
+        List<UserNoteRelationsEntity> userNoteRelations = (List<UserNoteRelationsEntity>) criteria.list();
 
         List<NoteEntity> notes = new ArrayList<NoteEntity>();;
 
@@ -224,7 +223,6 @@ public class DbHelper {
                 if (tokenEntity!=null){
                     DbHelper.removeToken(session,tokenEntity);
                     System.out.println("Removing token because it is outdated");
-                    return null;
                 }
             }
         }

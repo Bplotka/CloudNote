@@ -1,6 +1,7 @@
 package cloudNote;
 
 import org.hibernate.Session;
+import org.json.JSONException;
 import org.json.JSONObject;
 import sun.org.mozilla.javascript.internal.json.JsonParser;
 
@@ -138,10 +139,16 @@ public class NoteServlet extends NoteHttpServlet {
 
             System.out.println("Note call:: SUCCESS ");
             return_fields.put("msg", "Note saved");
-        } catch (Exception ex) {
+        }
+        catch (JSONException ex) {
             status = ApiHelper.Status.ERROR;
             return_fields.put("msg", ex.getMessage());
         }
+        catch (Exception ex) {
+            status = ApiHelper.Status.ERROR;
+            return_fields.put("msg", ex.getMessage());
+        }
+
         finally {
             DbHelper.closeSession(session);
         }
