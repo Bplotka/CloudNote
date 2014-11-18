@@ -62,11 +62,8 @@ public class PermissionServlet extends NoteHttpServlet {
             session = DbHelper.getCreatedSession();
 
             // Check token and list permission for that USER and NOTE
-            UserEntity user = DbHelper.getUserByToken(session, token);
-
-            if(user != null){
-                rights = DbHelper.getUserNoteRelationsByUserId(session, user.getId());
-            }
+            DbHelper.getUserByToken(session, token);
+            rights = DbHelper.getUserNoteRelationsByNoteId(session, Integer.parseInt(note_id));
 
         } catch (Exception ex) {
             status = ApiHelper.Status.ERROR;
@@ -99,7 +96,7 @@ public class PermissionServlet extends NoteHttpServlet {
             String login = request.getParameter("user_login");
 
             if ((token == null)||(note_id == null)||(permission == null)||(login == null)){
-                throw new Exception("No token or note id or permission or user specified in request");
+                throw new Exception("No token or note id or permission or user_login specified in request");
             }
 
             session = DbHelper.getCreatedSession();
@@ -108,7 +105,7 @@ public class PermissionServlet extends NoteHttpServlet {
             // Get User from token, update permission for the given user in(login)
             UserEntity user = DbHelper.getUserByToken(session, token);
             if(user != null){
-                DbHelper.addPermission(session,user.getId(), login, permission, note_id);
+                DbHelper.addPermission(session, user.getId(), login, permission, note_id);
             }
 
             System.out.println("Note call:: SUCCESS ");
@@ -145,7 +142,7 @@ public class PermissionServlet extends NoteHttpServlet {
             // Check token
             // remove permission for the given user in(login) and note
             DbHelper.getToken(session, token, true);
-            DbHelper.removePermission(session, login, note_id);
+            DbHelper.removePermission(session, login, Integer.parseInt(note_id));
 
             System.out.println("Note call:: SUCCESS ");
             return_fields.put("msg", "Permission deleted");

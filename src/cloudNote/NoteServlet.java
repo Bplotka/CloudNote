@@ -11,7 +11,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.Timestamp;
 import java.util.*;
+import java.util.zip.DataFormatException;
 
 /**
  * Created by bwplo_000 on 2014-11-16.
@@ -94,9 +96,11 @@ public class NoteServlet extends NoteHttpServlet {
         Session session = null;
         try {
             String token = request.getParameter("token");
-            String note = request.getParameter("note");
-
-            if ((token == null)||(note == null)){
+            String note_id = request.getParameter("note_id");
+            String title = request.getParameter("title");
+            String content = request.getParameter("content");
+            String is_public = request.getParameter("is_public");
+            if ((token == null)||(title == null)||(content == null)||(is_public == null)){
                 throw new Exception("No token or note specified in request");
             }
 
@@ -106,43 +110,45 @@ public class NoteServlet extends NoteHttpServlet {
             // If exists check if user have RW rights. If not just create note.
             TokenEntity tokenEntity = DbHelper.getToken(session, token, true);
 
-            JSONObject obj = new JSONObject(note);
-            int noteId = obj.getInt("id");
-            String noteTitle = obj.getString("title");
-            String noteContent = obj.getString("content");
-            Byte isPublic = Byte.parseByte(obj.getString("is_public"));
+//            JSONObject obj = new JSONObject(note);
+//            int noteId = obj.getInt("id");
+//            String noteTitle = obj.getString("title");
+//            String noteContent = obj.getString("content");
+//            Byte isPublic = Byte.parseByte(obj.getString("is_public"));
 
             UserEntity user = DbHelper.getUserByToken(session, tokenEntity);
             NoteEntity noteEntity = null;
-            for(NoteEntity user_note : user.Notes)
-            {
-                if(user_note.getId() == noteId)
-                {
-                    noteEntity = user_note;
+            if (note_id != null) {
+                for (NoteEntity user_note : user.Notes) {
+                    if (user_note.getId() == Integer.parseInt(note_id)) {
+                        noteEntity = user_note;
+                    }
                 }
             }
-
+            java.util.Date date = new java.util.Date();
+            boolean create_rel = false;
             if(noteEntity == null){
                 //NEW NOTE
                 System.out.println("Note call:: New note ");
                 noteEntity = new NoteEntity();
+                noteEntity.setCreateTime(new Timestamp(date.getTime()));
+                noteEntity.right = RightEnum.READ_WRITE;
+                create_rel = true;
             }else{
-                if (noteEntity.getRight() == RightEnum.READ) {
+                if (noteEntity.right == RightEnum.READ) {
                     throw new Exception("User has no WRITE permission for that note");
                 }
+                System.out.println("Note call:: Update note ");
             }
-            noteEntity.setContent(noteContent);
-            noteEntity.setTitle(noteTitle);
-            noteEntity.setCreateBy(tokenEntity.getId());
-            noteEntity.setIsPublic(isPublic);
-            DbHelper.saveNote(session, tokenEntity.getId(), noteEntity);
+            noteEntity.setLastModify(new Timestamp(date.getTime()));
+            noteEntity.setContent(content);
+            noteEntity.setTitle(title);
+            noteEntity.setCreateBy(user.getId());
+            noteEntity.setIsPublic(Byte.parseByte(is_public));
+            DbHelper.saveNote(session, user.getId(), noteEntity, create_rel);
 
             System.out.println("Note call:: SUCCESS ");
             return_fields.put("msg", "Note saved");
-        }
-        catch (JSONException ex) {
-            status = ApiHelper.Status.ERROR;
-            return_fields.put("msg", ex.getMessage());
         }
         catch (Exception ex) {
             status = ApiHelper.Status.ERROR;
@@ -182,11 +188,11 @@ public class NoteServlet extends NoteHttpServlet {
             {
                 if(user_note.getId() == noteId)
                 {
-                    if (user_note.getRight() == RightEnum.READ_WRITE)  noteEntity = user_note;
+                    if (user_note.right == RightEnum.READ_WRITE)  noteEntity = user_note;
                 }
             }
             if(noteEntity==null){
-                throw new Exception("User has no permission to remove that note");
+                throw new Exception("User has no permission to remove that note or note is already removed.");
             }
             DbHelper.removeNote(session, noteEntity);
 

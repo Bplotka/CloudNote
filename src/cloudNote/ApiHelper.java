@@ -40,7 +40,7 @@ public class ApiHelper {
             ret += "\"is_public\": \"" + String.valueOf(note.getIsPublic())+ "\", ";
             ret += "\"content\": \"" + String.valueOf(note.getContent())+ "\", ";
             ret += "\"create_time\": \"" + String.valueOf(note.getCreateTime())+ "\", ";
-            ret += "\"last_modify\": \"" +  String.valueOf(note.getLastModify())+ "\", ";
+            ret += "\"last_modify\": \"" +  String.valueOf(note.getLastModify())+ "\" ";
             //ret += "\"author\": \"" +  String.valueOf(note.getCreateBy())+ "\", ";
             ret += "}";
             if (it.hasNext()) ret+=", ";
@@ -58,7 +58,7 @@ public class ApiHelper {
             ret += "{ ";
             ret += "\"id\": \"" + String.valueOf(rights.getId())+ "\", ";
             ret += "\"permission\": \"" +  String.valueOf(rights.getNoteRight())+ "\", ";
-            ret += "\"user\": \"" + String.valueOf(rights.user.getLogin())+ "\", ";
+            ret += "\"user\": \"" + String.valueOf(rights.user.getLogin())+ "\" ";
           //  ret += "\"create_time\": \"" + String.valueOf(note.getCreateTime())+ "\", ";
            // ret += "\"last_modify\": \"" +  String.valueOf(note.getLastModify())+ "\", ";
             ret += "}";

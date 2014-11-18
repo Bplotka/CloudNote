@@ -18,7 +18,7 @@ public class NoteEntity {
     private Timestamp lastModify;
     private Byte isPublic;
     private Integer createBy;
-    private RightEnum right;
+    public RightEnum right;
 
     @Id
     @Column(name = "id")
@@ -120,11 +120,11 @@ public class NoteEntity {
         return result;
     }
 
-    public RightEnum getRight() {
-        return right;
-    }
-
-    public void setRight(RightEnum right) {
-        this.right = right;
-    }
+//    public RightEnum getRight() {
+//        return right;
+//    }
+//
+//    public void setRight(RightEnum right) {
+//        this.right = right;
+//    }
 }
